@@ -7,13 +7,44 @@ const db = new Sequelize({
   logging: console.log
 });
 
+// define Track model 
+const Track = db.define('Track', {
+  trackId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  songTitle: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  artistName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  albumName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  genre: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  duration: {
+    type: DataTypes.INTEGER
+  },
+  releaseYear: {
+    type: DataTypes.INTEGER
+  }
+});
+
 async function setupDatabase() {
   try {
     await db.authenticate();
     console.log("Connection to database established successfully.");
 
     await db.sync({ force: true });
-    console.log("Database created successfully.");
+    console.log("Database and tables created successfully.");
 
     await db.close();
   } catch (error) {
@@ -26,4 +57,5 @@ if (require.main === module) {
   setupDatabase();
 }
 
-module.exports = { db };
+// Export the model and the connection to use in other files
+module.exports = { db, Track };
